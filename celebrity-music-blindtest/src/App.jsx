@@ -1,20 +1,27 @@
-import React from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import CelebrityMusicBlindtest from './CelebrityMusicBlindtest';
+import { loginSpotify, logoutSpotify, isLogged, getUserData } from "./services/SpotifyService";
+import { useState, useEffect } from "react";
 
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-  },
-});
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (isLogged()) {
+      getUserData().then(setUser);
+    }
+  }, []);
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <CelebrityMusicBlindtest />
-    </ThemeProvider>
+    <div>
+      {isLogged() ? (
+        <>
+          <h1>Bienvenue, {user?.display_name} !</h1>
+          <button onClick={logoutSpotify}>Se déconnecter</button>
+        </>
+      ) : (
+        <button onClick={loginSpotify}>Se connecter avec Spotify</button>
+      )}
+    </div>
   );
 }
 

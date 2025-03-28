@@ -1,27 +1,26 @@
-import { loginSpotify, logoutSpotify, isLogged, getUserData } from "./services/SpotifyService";
-import { useState, useEffect } from "react";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import theme from "./theme"; // Importation du thème
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Game from "./pages/Game";
+import Login from "./pages/Login";
 
 function App() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    if (isLogged()) {
-      getUserData().then(setUser);
-    }
-  }, []);
-
   return (
-    <div>
-      {isLogged() ? (
-        <>
-          <h1>Bienvenue, {user?.display_name} !</h1>
-          <button onClick={logoutSpotify}>Se déconnecter</button>
-        </>
-      ) : (
-        <button onClick={loginSpotify}>Se connecter avec Spotify</button>
-      )}
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline /> {/* Normalise les styles */}
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/game" element={<Game />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 

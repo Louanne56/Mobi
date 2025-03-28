@@ -3,7 +3,7 @@ const clientId = "9784d71c97ea487a801024c8ab3fbd16"; // your clientId
 const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
-const scope = "user-read-private user-read-email";
+const scope = "user-top-read user-read-private user-read-email";
 
 // Data structure that manages the current active token, caching it in localStorage
 const currentToken = {
@@ -143,7 +143,7 @@ export function isLogged() {
 
 // Fetch functions
 
-async function fetchWebApi(endpoint, method, body) {
+export async function fetchWebApi(endpoint, method, body) {
   const response = await fetch(`https://api.spotify.com/${endpoint}`, {
     headers: {
       Authorization: `Bearer ${currentToken.access_token}`,
